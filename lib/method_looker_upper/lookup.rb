@@ -17,9 +17,6 @@ module MethodLookerUpper
 
     class << self
       METHOD_VISIBILITIES = [:public, :protected, :private].freeze
-      METHOD_HASH_BASE = Hash.new do |outer_hash, outer_key|
-        outer_hash[outer_key] = Hash.new { |inner_hash, inner_key| inner_hash[inner_key] = [] }
-      end
 
       def lookup_single_method(object, filter)
         object.each_target_level do |target, type|
@@ -37,53 +34,19 @@ module MethodLookerUpper
         end
       end
 
+      # Creates a hash that defaults to a hash which defaults to an array. Seeds the key order using
+      # the object's ancestors, but accepts anything.
       def structured_method_hash(target, filter)
-        method_hash = METHOD_HASH_BASE.dup
-        METHOD_VISIBILITIES.each do |visibility|
-          target.send(:"#{visibility}_instance_methods", true).grep(filter).sort.each do |method_name|
-            owner = target.instance_method(method_name).owner
-            method_hash[owner][visibility] << method_name
+        array_proc = proc { |h, k| h[k] = [] }
+        method_hash = Hash.new { |h, k| h[k] = Hash.new(&array_proc) }
+        target.ancestors.each(&method_hash.method(:default))
+
+        METHOD_VISIBILITIES.each do |vis|
+          target.send(:"#{vis}_instance_methods", true).grep(filter).sort.each do |method|
+            method_hash[target.instance_method(method).owner][vis] << method
           end
         end
-        method_hash.sort_by { |key, _| target.ancestors.index(key) }.to_h
-      end
-
-      def each_target_level(target)
-        super_klass, klass = normalize_target_levels(target)
-
-        yield(klass, :instance)
-        yield(super_klass, :class)
-      end
-
-      def normalize_target_levels(target)
-        target.is_a?(Module) ? [target.singleton_class, target] : normalize_target_levels(target.singleton_class)
-      rescue TypeError
-        normalize_target_levels(target.class)
-      end
-
-      def lookup_instance_method(method, target, mod_name)
-        return default_instance_method(target, mod_name) if method.nil?
-
-        target.instance_method(method)
-      rescue NameError
-        nil
-      end
-
-      def default_instance_method(target, mod_name)
-        methods = target.instance_methods(false).map(&target.method(:instance_method))
-        method_sources = methods.group_by { |m| m.source_location&.first }
-        file_key = best_fit_default_file(method_sources.keys, mod_name)
-        method_sources[file_key]&.first || methods.first
-      end
-
-      def best_fit_default_file(files, mod_name)
-        file_name = mod_name.to_s.underscore
-        files = files.compact
-        files.find { |f| f.match?(/\b#{file_name}.rb$/) } ||
-          files.find { |f| f.match?(/#{file_name}.rb$/) } ||
-          files.find { |f| f.match?(/\b#{file_name}/) } ||
-          files.find { |f| f.include?(file_name) } ||
-          files.first
+        method_hash.select { |_, v| v.present? }
       end
 
       def print_method(method, level)
