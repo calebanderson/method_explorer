@@ -6,8 +6,6 @@ module MethodLookerUpper
       # object, leading to it being skipped in the list, since self points to the base
       # object, not the delegate class instance.
       Delegator.include(MethodLookerUpper::Lookup) if defined?(Delegator)
-
-      # IRB::Inspector::INSPECTORS[true].singleton_class.prepend(InspectorExt)
       IRB::Inspector.prepend(LookupProxy::InspectorExtension)
     end
   end
