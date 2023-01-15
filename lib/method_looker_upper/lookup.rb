@@ -3,13 +3,13 @@ module MethodLookerUpper
     # TODO: Possibly make this return a proxy if no args are given? Somehow allow this.that.the_other to have #lookup
     #   injected like this.lookup.that.the_other, and both print info about #that, and continue on.
     def lookup(*args)
-      args.unshift(self) if args.size < 2 && [NilClass, Symbol, String, Regexp].any?(&args.first.method(:is_a?))
-      target, method_name = args
+      target = LookupObject.new(args.size == 1 ? self : args.shift)
+      filter = args.first
 
-      if method_name.is_a?(Regexp)
-        Lookup.lookup_matching_methods(target, method_name)
+      if filter.is_a?(Regexp)
+        Lookup.lookup_matching_methods(target, filter)
       else
-        Lookup.lookup_single_method(target, method_name)
+        Lookup.lookup_single_method(target, filter)
       end
       nil
     end
@@ -21,18 +21,15 @@ module MethodLookerUpper
         outer_hash[outer_key] = Hash.new { |inner_hash, inner_key| inner_hash[inner_key] = [] }
       end
 
-      def lookup_single_method(base, method_name)
-        mod_name = base.is_a?(Module) ? base.name : base.class.name
-
-        each_target_level(base) do |target, type|
-          method = lookup_instance_method(method_name, target, mod_name)
-          print_method(method, type)
+      def lookup_single_method(object, filter)
+        object.each_target_level do |target, type|
+          print_method(target.lookup_instance_method(filter), type)
         end
       end
 
-      def lookup_matching_methods(base, method_filter)
-        each_target_level(base) do |target, type|
-          methods = structured_method_hash(target, method_filter)
+      def lookup_matching_methods(object, filter)
+        object.each_target_level do |target, type|
+          methods = structured_method_hash(target.object, filter)
           next if methods.blank?
 
           puts " #{type.to_s.titleize} Methods ".center(ReactiveConsole.width - 10, '-'), "\n"
