@@ -1,4 +1,4 @@
-# MethodLookerUpper
+# MethodExplorer
 Short description and motivation.
 
 ## Usage
@@ -8,7 +8,7 @@ How to use my plugin.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'method_looker_upper'
+gem 'method_explorer'
 ```
 
 And then execute:
@@ -18,7 +18,7 @@ $ bundle
 
 Or install it yourself as:
 ```bash
-$ gem install method_looker_upper
+$ gem install method_explorer
 ```
 
 ## Contributing

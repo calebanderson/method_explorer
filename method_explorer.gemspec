@@ -1,11 +1,11 @@
-require_relative 'lib/method_looker_upper/version'
+require_relative 'lib/method_explorer/version'
 
 Gem::Specification.new do |spec|
-  spec.name        = 'method_looker_upper'
-  spec.version     = MethodLookerUpper::VERSION
+  spec.name        = 'method_explorer'
+  spec.version     = MethodExplorer::VERSION
   spec.authors     = ['calebanderson']
   spec.email       = ['caleb.r.anderson.1@gmail.com']
-  spec.homepage    = 'https://github.com/calebanderson/method_looker_upper'
+  spec.homepage    = 'https://github.com/calebanderson/method_explorer'
   spec.summary     = 'Helpers for getting useful method information'
   spec.description = 'Helpers for getting useful method information'
   spec.license     = 'MIT'
@@ -15,8 +15,8 @@ Gem::Specification.new do |spec|
   spec.metadata['allowed_push_host'] = 'TODO: Set to http://mygemserver.com'
 
   spec.metadata['homepage_uri'] = spec.homepage
-  spec.metadata['source_code_uri'] = 'https://github.com/calebanderson/method_looker_upper'
-  spec.metadata['changelog_uri'] = 'https://github.com/calebanderson/method_looker_upper/blob/master/CHANGELOG.md'
+  spec.metadata['source_code_uri'] = 'https://github.com/calebanderson/method_explorer'
+  spec.metadata['changelog_uri'] = 'https://github.com/calebanderson/method_explorer/blob/master/CHANGELOG.md'
 
   spec.files = Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md']
 

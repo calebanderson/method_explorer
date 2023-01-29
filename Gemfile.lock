@@ -13,7 +13,7 @@ PATH
 PATH
   remote: .
   specs:
-    method_looker_upper (0.1.0)
+    method_explorer (0.1.0)
       rails (>= 4.2)
       responsive_console
       shared_helpers
@@ -151,7 +151,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  method_looker_upper!
+  method_explorer!
   responsive_console!
   shared_helpers!
   sqlite3

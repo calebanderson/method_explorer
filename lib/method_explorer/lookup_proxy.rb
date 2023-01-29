@@ -1,4 +1,4 @@
-module MethodLookerUpper
+module MethodExplorer
   class LookupProxy < SimpleDelegator
     def method_missing(method_name, *)
       __getobj__.lookup(method_name) unless __intercepted__
@@ -26,7 +26,7 @@ module MethodLookerUpper
     # implicit calls and explicit calls, this causes a detectable change on the object.
     module InspectorExtension
       def inspect_value(v)
-        v.__irb_inspect__ if MethodLookerUpper::LookupProxy === v
+        v.__irb_inspect__ if MethodExplorer::LookupProxy === v
         super
       end
     end

@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-# Specify your gem's dependencies in method_looker_upper.gemspec.
+# Specify your gem's dependencies in method_explorer.gemspec.
 gemspec
 
 group :development do

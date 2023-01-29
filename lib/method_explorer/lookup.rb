@@ -1,7 +1,5 @@
-module MethodLookerUpper
+module MethodExplorer
   module Lookup
-    # TODO: Possibly make this return a proxy if no args are given? Somehow allow this.that.the_other to have #lookup
-    #   injected like this.lookup.that.the_other, and both print info about #that, and continue on.
     def lookup(*args)
       return LookupProxy.new(self) if args.blank?
 

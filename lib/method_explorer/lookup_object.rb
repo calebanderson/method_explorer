@@ -1,4 +1,4 @@
-module MethodLookerUpper
+module MethodExplorer
   class LookupObject
     attr_reader :object, :base
     delegate :name, :ancestors, to: :base
