@@ -1,7 +1,7 @@
 PATH
-  remote: ../reactive_console
+  remote: ../responsive_console
   specs:
-    reactive_console (0.1.0)
+    responsive_console (0.1.0)
       rails (~> 6.1.1)
 
 PATH
@@ -15,7 +15,7 @@ PATH
   specs:
     method_looker_upper (0.1.0)
       rails (>= 4.2)
-      reactive_console
+      responsive_console
       shared_helpers
 
 GEM
@@ -152,7 +152,7 @@ PLATFORMS
 
 DEPENDENCIES
   method_looker_upper!
-  reactive_console!
+  responsive_console!
   shared_helpers!
   sqlite3
 
