@@ -29,8 +29,8 @@ module MethodExplorer
           methods = structured_method_hash(target.object, filter)
           next if methods.blank?
 
-          puts " #{type.to_s.titleize} Methods ".center(ReactiveConsole.width - 10, '-'), "\n"
-          puts ReactiveConsole::DisplayString.new(methods).output(:methods), "\n"
+          puts " #{type.to_s.titleize} Methods ".center(ResponsiveConsole.width - 10, '-'), "\n"
+          puts ResponsiveConsole::DisplayString.new(methods).output(:methods), "\n"
         end
       end
 
